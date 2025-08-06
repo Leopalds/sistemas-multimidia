@@ -1,11 +1,1 @@
-/.DS_Store
-/audio_aac.m4a
-/audio_mono.m4a
-/audio_stereo.m4a
-/dash
-/saida_1080p.mp4
-/saida_480p.mp4
-/saida_720i.mp4
-/video_audio_multiplexed.ts
-/video_h264.mp4
-/video_h265.mp4
+.DS_Store
