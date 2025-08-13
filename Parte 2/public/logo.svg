@@ -1,0 +1,35 @@
+<!-- PhoTool minimal logo SVG -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" aria-labelledby="title desc" role="img">
+  <title id="title">PhoTool logo</title>
+  <desc id="desc">Minimalist logo: rounded square focus frame with simple face outline and "PhoTool" wordmark.</desc>
+
+  <!-- background (transparent) -->
+
+  <!-- focus-corners (camera frame) -->
+  <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="22">
+    <path d="M180 170 L180 120 A30 30 0 0 1 210 90 L260 90" />
+    <path d="M620 170 L620 120 A30 30 0 0 0 590 90 L540 90" />
+    <path d="M180 630 L180 680 A30 30 0 0 0 210 710 L260 710" />
+    <path d="M620 630 L620 680 A30 30 0 0 1 590 710 L540 710" />
+  </g>
+
+
+  <!-- face (simple line art) -->
+  <g transform="translate(0,10)" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+    <!-- head outline (oval) -->
+    <path d="M400 220
+             C470 220 520 280 520 360
+             C520 440 470 500 400 500
+             C330 500 280 440 280 360
+             C280 280 330 220 400 220 Z" fill="none"/>
+    <!-- ears (small semi-circles) -->
+    <path d="M270 360 C260 350 260 370 270 380" />
+    <path d="M530 360 C540 350 540 370 530 380" />
+    <!-- eyes -->
+    <circle cx="360" cy="350" r="12" fill="white" stroke="none"/>
+    <circle cx="440" cy="350" r="12" fill="white" stroke="none"/>
+    <!-- smile -->
+    <path d="M360 420 C380 445 420 445 440 420" fill="none"/>
+  </g>
+
+</svg>
