@@ -1,0 +1,9 @@
+name: facesvc
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - dlib
+  - numpy
+  - opencv
+prefix: /opt/anaconda3/envs/facesvc

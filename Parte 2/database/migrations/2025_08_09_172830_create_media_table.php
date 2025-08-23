@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string("path");
             $table->enum("type", ["photo", "video"]);
-            $table->json("metadata")->nullable();
+            $table->json("meta")->nullable();
+            $table->string("status")->default("queued"); // queued|processing|processed|failed
             $table->timestamps();
+
+            $table->index("status");
+            $table->index("type");
         });
     }
 

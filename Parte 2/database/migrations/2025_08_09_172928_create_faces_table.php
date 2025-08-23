@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('faces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('person_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('media_id')->constrained('media')->cascadeOnDelete();
-
-            $table->json('bounding_box');
-            $table->json('encoding_vector');
-
-            $table->float('timestamp')->nullable();
-
+            $table->foreignId('person_id')->constrained('people')->cascadeOnDelete();
+            // 128 floats (4 bytes) = 512 bytes -> pode ser BLOB
+            $table->binary('encoding');              // BLOB com float32[128]
+            $table->string('source')->nullable();    // ex: "image:foto.jpg" ou "video:clip.mp4@12.3s"
             $table->timestamps();
+        
+            $table->index('person_id');
         });
     }
 

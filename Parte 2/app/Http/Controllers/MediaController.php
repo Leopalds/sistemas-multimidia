@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMediaRequest;
 use App\Http\Requests\UpdateMediaRequest;
+use App\Jobs\ProcessMedia;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -51,12 +52,13 @@ class MediaController extends Controller
             $originalName = $file->getClientOriginalName();
             $path = $file->storeAs('media', $originalName, 'public');
 
-            Media::create([
+            $media = Media::create([
                 'path' => $path,
                 'type' => $type,
-                'metadata' => null,
+                'meta' => null,
             ]);
 
+            ProcessMedia::dispatchRaw($media->id, queue: 'face');
             $uploaded[] = $path;
         }
 

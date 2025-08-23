@@ -13,10 +13,16 @@ class Media extends Model
     protected $fillable = [
         'path',
         'type',
-        'metadata'
+        'meta',
+        'status'
     ];
 
     protected $casts = [
-        'metadata' => 'array',
+        'meta' => 'array',
     ];
+
+    public function videoHits()
+    {
+        return $this->hasMany(VideoHit::class);
+    }
 }

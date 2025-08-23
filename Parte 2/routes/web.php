@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ProfileController;
+use App\Jobs\ProcessMedia;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +15,11 @@ use Inertia\Inertia;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
+
+Route::get('/enqueue/{mediaId}', function (int $mediaId){
+    ProcessMedia::dispatchRaw($mediaId, queue: 'face');
+    return response()->json(['queued' => true]);
+});
 
 Route::get('/', function () {
     return redirect()->route('media.index');

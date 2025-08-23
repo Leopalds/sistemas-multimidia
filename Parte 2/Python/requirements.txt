@@ -1,0 +1,10 @@
+# Core
+face_recognition
+opencv-python-headless
+numpy
+pydantic
+loguru
+
+# Infra
+redis
+requests

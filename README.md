@@ -7,3 +7,11 @@ Nessa parte tem um arquivo com uma série de comandos ffmpeg para fazer diversas
 
 # Parte 2
 Teremos um sistema Web que fara reconhecimento de facial dentro de imagens e vídeos.
+
+## Python
+Para iniciar o serviço do python é necessário utilizar o conda:
+
+```
+conda env create -f ./"Parte 2"/Python/environment.yml
+conda activate facesvc
+```
