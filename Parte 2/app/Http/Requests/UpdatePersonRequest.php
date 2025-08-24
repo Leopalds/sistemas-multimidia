@@ -11,7 +11,7 @@ class UpdatePersonRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class UpdatePersonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'thumbnail_path' => 'nullable|string|max:500',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'O nome da pessoa é obrigatório.',
+            'name.max' => 'O nome da pessoa não pode ter mais de 255 caracteres.',
+            'thumbnail_path.max' => 'O caminho da thumbnail não pode ter mais de 500 caracteres.',
         ];
     }
 }

@@ -21,4 +21,9 @@ class VideoHit extends Model
     {
         return $this->belongsTo(Media::class);
     }
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
 }

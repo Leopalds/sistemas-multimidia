@@ -12,6 +12,7 @@
       <div class="space-x-4">
         <inertia-link :href="route('media.create')" class="hover:underline">Upload</inertia-link>
         <inertia-link :href="route('media.index')" class="hover:underline">Mídias</inertia-link>
+        <inertia-link :href="route('people.index')" class="hover:underline">Pessoas</inertia-link>
       </div>
     </nav>
   </template>

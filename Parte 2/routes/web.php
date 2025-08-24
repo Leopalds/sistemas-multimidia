@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
 use App\Jobs\ProcessMedia;
 use Illuminate\Foundation\Application;
@@ -32,6 +33,14 @@ Route::get('/dashboard', function () {
 Route::resource('media', MediaController::class)
     ->parameters(['media' => 'media'])
     ->only(['index', 'create', 'store', 'show', 'destroy']);
+
+Route::resource('people', PersonController::class)
+    ->parameters(['people' => 'person'])
+    ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+// Rotas adicionais para pessoas
+Route::patch('/people/{person}/name', [PersonController::class, 'updateName'])->name('people.updateName');
+Route::get('/people/search', [PersonController::class, 'search'])->name('people.search');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

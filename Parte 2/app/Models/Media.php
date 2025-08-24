@@ -25,4 +25,11 @@ class Media extends Model
     {
         return $this->hasMany(VideoHit::class);
     }
+
+    public function people()
+    {
+        return $this->belongsToMany(Person::class, 'video_hits', 'media_id', 'person_id')
+                    ->withPivot(['frame_index', 'timestamp_s', 'distance', 'left', 'top', 'right', 'bottom'])
+                    ->withTimestamps();
+    }
 }
