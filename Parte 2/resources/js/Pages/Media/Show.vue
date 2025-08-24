@@ -47,26 +47,67 @@
                                 </div>
                             </div>
 
-                            <div v-else-if="media.type === 'video'" class="space-y-4">
-                                <video 
-                                    :src="`/storage/${media.path}`" 
-                                    controls
-                                    class="w-full rounded-lg shadow-lg"
-                                    @timeupdate="onVideoTimeUpdate"
-                                ></video>
+                            <div v-else-if="media.type === 'video'" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Vídeo à esquerda -->
+                                <div>
+                                    <video 
+                                        :src="`/storage/${media.path}`" 
+                                        controls
+                                        class="w-full max-h-96 rounded-lg shadow-lg"
+                                        @timeupdate="onVideoTimeUpdate"
+                                    ></video>
+                                </div>
                                 
-                                <!-- Controles de frame para vídeo -->
-                                <div class="flex items-center gap-4">
-                                    <label class="text-sm font-medium">Frame atual:</label>
-                                    <input 
-                                        type="range" 
-                                        :min="0" 
-                                        :max="getMaxFrame()" 
-                                        v-model="currentFrame"
-                                        @input="onFrameChange"
-                                        class="flex-1"
-                                    />
-                                    <span class="text-sm text-gray-600">{{ currentFrame || 0 }}</span>
+                                <!-- Lista de pessoas à direita -->
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-4">Pessoas no vídeo</h3>
+                                    <div class="space-y-3 max-h-96 overflow-y-auto">
+                                        <div 
+                                            v-for="(hits, frameIndex) in getCurrentFrameHitsWithOffset()" 
+                                            :key="frameIndex"
+                                            class="p-3 bg-gray-50 rounded-lg"
+                                        >
+                                            <div class="font-medium mb-2">Frame {{ frameIndex }}</div>
+                                            <div class="space-y-2">
+                                                <div 
+                                                    v-for="hit in hits" 
+                                                    :key="hit.id"
+                                                    class="flex items-center gap-3 p-2 bg-white rounded border"
+                                                >
+                                                    <!-- Imagem da pessoa -->
+                                                    <div class="flex-shrink-0">
+                                                        <img 
+                                                            v-if="hit.person?.photo_path" 
+                                                            :src="`/storage/${hit.person.photo_path}`" 
+                                                            :alt="hit.person.name"
+                                                            class="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                                                        />
+                                                        <div 
+                                                            v-else 
+                                                            class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-semibold"
+                                                        >
+                                                            {{ hit.person?.name ? hit.person.name.charAt(0) : '?' }}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Informações da pessoa -->
+                                                    <div class="flex-1 min-w-0">
+                                                        <div class="font-medium text-gray-900">{{ hit.person?.name || 'Pessoa Desconhecida' }}</div>
+                                                        <div class="text-sm text-gray-600">
+                                                            Confiança: {{ (100 - (hit.distance || 0)).toFixed(1) }}%
+                                                        </div>
+                                                        <div class="text-xs text-gray-500">
+                                                            {{ (hit.timestamp_s || 0).toFixed(2) }}s
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div v-if="Object.keys(getCurrentFrameHitsWithOffset()).length === 0" class="text-center py-8 text-gray-500">
+                                            Nenhuma pessoa identificada no frame atual
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -133,42 +174,6 @@
                                     Nenhuma pessoa identificada nesta imagem
                                 </div>
                             </div>
-
-                            <div v-else-if="media.type === 'video'" class="space-y-3">
-                                <div 
-                                    v-for="(hits, frameIndex) in getCurrentFrameHits()" 
-                                    :key="frameIndex"
-                                    class="p-3 bg-gray-50 rounded-lg"
-                                >
-                                    <div class="font-medium mb-2">Frame {{ frameIndex }}</div>
-                                    <div class="space-y-2">
-                                        <div 
-                                            v-for="hit in hits" 
-                                            :key="hit.id"
-                                            class="flex items-center justify-between p-2 bg-white rounded border"
-                                        >
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                                                    {{ hit.person?.name ? hit.person.name.charAt(0) : '?' }}
-                                                </div>
-                                                <div>
-                                                    <div class="font-medium">{{ hit.person?.name || 'Pessoa Desconhecida' }}</div>
-                                                    <div class="text-sm text-gray-600">
-                                                        Confiança: {{ (100 - (hit.distance || 0)).toFixed(1) }}%
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-sm text-gray-500">
-                                                {{ (hit.timestamp_s || 0).toFixed(2) }}s
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div v-if="Object.keys(getCurrentFrameHits()).length === 0" class="text-center py-8 text-gray-500">
-                                    Nenhuma pessoa identificada no frame atual
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Botões de ação -->
@@ -207,19 +212,27 @@ const props = defineProps({
 })
 
 const currentFrame = ref(0)
+const timeOffset = ref(2) // Offset de 2 segundos para mostrar pessoas por mais tempo
 
-const getMaxFrame = () => {
+const getCurrentFrameHitsWithOffset = () => {
     if (props.media.type === 'video' && props.videoHits) {
-        const frames = Object.keys(props.videoHits).map(Number)
-        return frames.length > 0 ? Math.max(...frames) : 0
-    }
-    return 0
-}
-
-const getCurrentFrameHits = () => {
-    if (props.media.type === 'video' && props.videoHits) {
-        const frameHits = props.videoHits[currentFrame.value] || []
-        return frameHits.length > 0 ? { [currentFrame.value]: frameHits } : {}
+        const fps = props.media.meta?.fps || 30
+        const currentTime = currentFrame.value / fps
+        
+        // Busca hits em um intervalo de frames (frame atual + offset)
+        const frameHits = {}
+        
+        Object.keys(props.videoHits).forEach(frameStr => {
+            const frame = parseInt(frameStr)
+            const frameTime = frame / fps
+            
+            // Inclui hits se estiverem dentro do intervalo de tempo (frame atual ± offset)
+            if (Math.abs(frameTime - currentTime) <= timeOffset.value) {
+                frameHits[frame] = props.videoHits[frame]
+            }
+        })
+        
+        return frameHits
     }
     return {}
 }
@@ -230,15 +243,6 @@ const onVideoTimeUpdate = (event) => {
     const fps = props.media.meta?.fps || 30
     const frameIndex = Math.floor(video.currentTime * fps)
     currentFrame.value = frameIndex
-}
-
-const onFrameChange = () => {
-    // Atualiza o tempo do vídeo baseado no frame selecionado
-    const video = document.querySelector('video')
-    if (video) {
-        const fps = props.media.meta?.fps || 30
-        video.currentTime = currentFrame.value / fps
-    }
 }
 
 const enqueueProcessing = async () => {
