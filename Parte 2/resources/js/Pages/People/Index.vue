@@ -22,7 +22,8 @@
             <!-- Barra de pesquisa -->
             <div class="mb-6">
                 <div class="flex items-center justify-between">
-                    <div class="relative flex-1 max-w-md">
+                    <div></div>
+                    <!-- <div class="relative flex-1 max-w-md">
                         <input 
                             type="text" 
                             v-model="searchQuery"
@@ -31,7 +32,7 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                         <i class="fa-solid fa-search absolute right-3 top-3 text-gray-400"></i>
-                    </div>
+                    </div> -->
                     
                     <!-- Seletor de itens por página -->
                     <div class="flex items-center gap-2">
