@@ -1,61 +1,270 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Reconhecimento Facial - Parte 2
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📋 Visão Geral
 
-## About Laravel
+Este é um sistema completo de reconhecimento facial desenvolvido em Laravel (PHP) com processamento Python para análise de imagens e vídeos. O sistema permite fazer upload de mídias, identificar pessoas através de reconhecimento facial e gerenciar um banco de dados de rostos conhecidos.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Funcionalidades Principais
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. **Upload de Mídias**
+- **Interface Drag & Drop**: Sistema moderno de upload com arrastar e soltar
+- **Suporte a Múltiplos Formatos**: Imagens (JPG, PNG, etc.) e Vídeos (MP4, AVI, etc.)
+- **Barra de Progresso**: Acompanhamento visual do upload em tempo real
+- **Validação de Arquivos**: Verificação automática de tipos e tamanhos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 2. **Reconhecimento Facial**
+- **Processamento Automático**: Análise automática de rostos em imagens e vídeos
+- **Algoritmo Avançado**: Utiliza bibliotecas Python (face_recognition, OpenCV) para detecção precisa
+- **Métricas de Confiança**: Porcentagem de confiança para cada identificação
+- **Processamento em Lote**: Suporte a múltiplas mídias simultaneamente
 
-## Learning Laravel
+### 3. **Gerenciamento de Pessoas**
+- **Banco de Rostos**: Armazenamento de características faciais para identificação
+- **Edição de Nomes**: Interface para associar nomes aos rostos identificados
+- **Histórico de Detecções**: Rastreamento de todas as aparições de cada pessoa
+- **Busca e Filtros**: Sistema de pesquisa e paginação para grandes volumes
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 4. **Visualização de Mídias**
+- **Player de Vídeo**: Reprodução com timeline sincronizado com detecções
+- **Overlay de Detecções**: Caixas delimitadoras sobre rostos identificados
+- **Informações em Tempo Real**: Dados de confiança e identificação
+- **Navegação por Frames**: Para vídeos, navegação frame a frame
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Tecnologias Utilizadas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Backend
+- **Laravel 10**: Framework PHP para API e gerenciamento
+- **SQLite**: Banco de dados para armazenamento local
+- **Redis**: Sistema de filas para processamento assíncrono
+- **Queue Jobs**: Processamento em background
 
-## Laravel Sponsors
+### Frontend
+- **Vue.js 3**: Interface reativa e moderna
+- **Inertia.js**: Integração SPA com Laravel
+- **Tailwind CSS**: Estilização responsiva e moderna
+- **FontAwesome**: Ícones para interface
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Processamento de IA
+- **Python 3.8+**: Scripts de reconhecimento facial
+- **face_recognition**: Biblioteca principal para detecção
+- **OpenCV**: Processamento de vídeo e imagens
+- **NumPy**: Computação numérica
 
-### Premium Partners
+## 📁 Estrutura do Projeto
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```
+Parte 2/
+├── app/                    # Aplicação Laravel
+│   ├── Http/Controllers/  # Controladores da API
+│   ├── Jobs/              # Jobs de processamento
+│   ├── Models/            # Modelos de dados
+│   └── Policies/          # Políticas de acesso
+├── Python/                # Scripts Python
+│   ├── facesvc/           # Serviço de reconhecimento
+│   ├── main.py            # Script principal
+│   ├── worker.py          # Worker para filas
+│   └── requirements.txt   # Dependências Python
+├── resources/js/          # Frontend Vue.js
+│   ├── Pages/             # Páginas da aplicação
+│   └── Components/        # Componentes reutilizáveis
+└── database/              # Migrações e seeders
+```
 
-## Contributing
+## 🚀 Como Usar
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. **Configuração Inicial**
 
-## Code of Conduct
+```bash
+# Instalar dependências PHP
+composer install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Instalar dependências Node.js
+npm install
 
-## Security Vulnerabilities
+# Configurar banco de dados
+php artisan migrate
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Gerar chave da aplicação
+php artisan key:generate
+```
 
-## License
+### 2. **Configuração Python**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cd Python
+
+# Criar ambiente virtual
+python -m venv venv
+
+# Ativar ambiente (Linux/Mac)
+source venv/bin/activate
+
+# Ativar ambiente (Windows)
+venv\Scripts\activate
+
+# Instalar dependências
+pip install -r requirements.txt
+```
+
+### 3. **Configuração do Redis**
+
+```bash
+# Instalar Redis (Ubuntu/Debian)
+sudo apt-get install redis-server
+
+# Iniciar serviço
+sudo systemctl start redis-server
+
+# Verificar status
+redis-cli ping
+```
+
+### 4. **Executar o Sistema**
+
+```bash
+# Terminal 1: Servidor Laravel
+php artisan serve
+
+# Terminal 2: Worker Python
+cd Python
+python worker.py
+
+# Terminal 3: Compilar assets (desenvolvimento)
+npm run dev
+```
+
+## 📱 Interface do Usuário
+
+### **Página de Upload**
+- Arraste arquivos para a área demarcada
+- Visualize previews antes do envio
+- Acompanhe o progresso do upload
+- Receba feedback de sucesso/erro
+
+### **Lista de Mídias**
+- Grid responsivo com thumbnails
+- Status de processamento (pendente/processado/falhou)
+- Ações rápidas (visualizar/excluir)
+- Filtros por tipo e status
+
+### **Visualização de Mídia**
+- **Imagens**: Overlay com caixas delimitadoras dos rostos
+- **Vídeos**: Player com timeline sincronizado
+- **Detecções**: Lista de pessoas identificadas por frame
+- **Edição**: Modificar nomes das pessoas identificadas
+
+### **Gerenciamento de Pessoas**
+- Lista paginada de todas as pessoas
+- Estatísticas de detecções
+- Ações de edição e exclusão
+- Busca e filtros
+
+## 🔧 Configurações Avançadas
+
+### **Variáveis de Ambiente Python**
+
+Crie um arquivo `Python/.env`:
+
+```env
+# Configurações do Redis
+REDIS_URL=redis://127.0.0.1:6379/0
+LARAVEL_QUEUE_KEY=queues:face
+
+# Configurações da API Laravel
+LARAVEL_API_BASE=http://localhost:8000/api
+
+# Configurações de Reconhecimento
+FACE_THRESHOLD=0.6
+FACE_MODEL=hog
+FACE_UPSAMPLE=1
+FRAME_SKIP=5
+
+# Caminho do banco SQLite
+SQLITE_PATH=database/database.sqlite
+```
+
+### **Configurações do Laravel**
+
+```php
+// config/queue.php
+'default' => env('QUEUE_CONNECTION', 'redis'),
+
+'connections' => [
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'default',
+        'queue' => env('REDIS_QUEUE', 'queues:face'),
+        'retry_after' => 90,
+        'block_for' => null,
+    ],
+],
+```
+
+## 📊 Processamento de Mídias
+
+### **Fluxo de Processamento**
+
+1. **Upload**: Usuário envia arquivo via interface
+2. **Enfileiramento**: Job é adicionado à fila Redis
+3. **Processamento**: Worker Python processa a mídia
+4. **Reconhecimento**: Análise facial com algoritmos de IA
+5. **Resultado**: Dados salvos no banco e interface atualizada
+
+### **Tipos de Mídia Suportados**
+
+- **Imagens**: JPG, PNG, GIF, BMP
+- **Vídeos**: MP4, AVI, MOV, WMV
+- **Tamanho**: Até 100MB por arquivo
+- **Resolução**: Suporta HD e 4K
+
+## 🎯 Casos de Uso
+
+### **Segurança e Monitoramento**
+- Identificação de pessoas em câmeras de segurança
+- Controle de acesso baseado em reconhecimento facial
+- Monitoramento de presença em eventos
+
+### **Organização de Fotos**
+- Categorização automática de álbuns familiares
+- Identificação de pessoas em eventos
+- Organização de fotos profissionais
+
+### **Análise de Vídeos**
+- Rastreamento de pessoas em filmagens
+- Análise de comportamento em vídeos
+- Estatísticas de aparições
+
+## 🚨 Solução de Problemas
+
+### **Erros Comuns**
+
+1. **Redis não conecta**
+   ```bash
+   sudo systemctl status redis-server
+   redis-cli ping
+   ```
+
+2. **Dependências Python faltando**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Permissões de arquivo**
+   ```bash
+   chmod -R 755 storage/
+   chmod -R 755 bootstrap/cache/
+   ```
+
+### **Logs e Debug**
+
+```bash
+# Logs do Laravel
+tail -f storage/logs/laravel.log
+
+# Logs do Python
+# Os logs aparecem no terminal do worker
+```
+
+## 📝 Licença
+
+Este projeto é parte de um trabalho acadêmico sobre Sistemas Multimídia.
